@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CSHARPND1.Core
 {
+    // ReccuringTask yra sealed ir jos paveldėti jau nebus galima (0,5 t)
     sealed class ReccuringTask : BaseTask, IFormattable
     {
         private DateTime nextDueDate;
@@ -41,6 +42,7 @@ namespace CSHARPND1.Core
             updateStatus();
         }
 
+        // ReccuringTask turi savo ToString metodo perkrovima
         public string ToString(string? format, IFormatProvider? formatProvider)
         {
             switch(format)

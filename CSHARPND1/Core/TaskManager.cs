@@ -8,6 +8,7 @@ namespace CSHARPND1.Core
 {
     class TaskManager
     {
+        // Naudojamas List is System.Collections.Generic (1 t)
         private List<BaseTask> tasks = new List<BaseTask>();
 
         public TaskManager() { }
@@ -17,6 +18,7 @@ namespace CSHARPND1.Core
             get { return tasks; }
         }
 
+        // params raktažodis naudojamas keliems užduotims pridėti (0,5 t)
         public void AddTask(params BaseTask[] tasks)
         {
             this.tasks.AddRange(tasks);
@@ -49,16 +51,19 @@ namespace CSHARPND1.Core
             }
         }
 
+        // Delegatai su lambdą funkcijoms naudojami filtravimo funkcijai jinai bus kviešiama kituose metoduose (1,5 t)
         public List<BaseTask> findTasks(Func<BaseTask, bool> predicate, List<BaseTask> tasks)
         {
             return tasks.Where(predicate).ToList();
         }
 
+        // Čia is raktažodis naudojamas surasti tik TaskItem tipo užduotis iš BaseTask masyvo (0,5 t)
         public List<BaseTask> getTaskItems()
         {
             return tasks.Where(t => t is TaskItem).ToList();
         }
 
+        // Čia tas pats tik ReccuringTask tipo užduotims (0,5 t)
         public List<BaseTask> getReccuringTasks()
         {
             return tasks.Where(t => t is ReccuringTask).ToList();

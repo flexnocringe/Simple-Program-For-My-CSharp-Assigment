@@ -52,55 +52,65 @@ namespace CSHARPND1.App
                 switch (choice)
                 {
                     case 1:
-                        Console.WriteLine("What type of task do you want to add?");
-                        Console.WriteLine("1. Standard Task | 2. Reccuring Task");
-                        Console.Write("Task Type: ");
-                        int taskType = int.Parse(Console.ReadLine());
-                        if (taskType == 1)
+                        bool isAdding = true;
+                        List<BaseTask> tasks = new List<BaseTask>();
+                        while (isAdding)
                         {
-                            Console.Write("Enter task name: ");
-                            string name = Console.ReadLine();
-                            Console.Write("\nEnter task description (optional): ");
-                            string description = Console.ReadLine();
-                            Console.Write("\nEnter due date (yyyy-MM-dd): ");
-                            DateTime dueDate = DateTime.Parse(Console.ReadLine());
-                            Console.Write("\nEnter priority (0. None, 1. Low, 2. Medium, 3. High): ");
-                            int priorityInput = int.Parse(Console.ReadLine());
-                            if (priorityInput < 0 || priorityInput > 3)
+                            Console.WriteLine("What type of task do you want to add?");
+                            Console.WriteLine("1. Standard Task | 2. Reccuring Task");
+                            Console.Write("Task Type: ");
+                            int taskType = int.Parse(Console.ReadLine());
+                            if (taskType == 1)
                             {
-                                Console.WriteLine("Invalid priority. Setting to None.");
-                                priorityInput = 0;
+                                Console.Write("Enter task name: ");
+                                string name = Console.ReadLine();
+                                Console.Write("\nEnter task description (optional): ");
+                                string description = Console.ReadLine();
+                                Console.Write("\nEnter due date (yyyy-MM-dd): ");
+                                DateTime dueDate = DateTime.Parse(Console.ReadLine());
+                                Console.Write("\nEnter priority (0. None, 1. Low, 2. Medium, 3. High): ");
+                                int priorityInput = int.Parse(Console.ReadLine());
+                                if (priorityInput < 0 || priorityInput > 3)
+                                {
+                                    Console.WriteLine("Invalid priority. Setting to None.");
+                                    priorityInput = 0;
+                                }
+                                Priority priority = (Priority)priorityInput;
+                                TaskItem newTask = new TaskItem(name, description, dueDate, priority);
+                                tasks.Add(newTask);
+                                Console.WriteLine("Task added successfully! ");
                             }
-                            Priority priority = (Priority)priorityInput;
-                            TaskItem newTask = new TaskItem(name, description, dueDate, priority);
-                            taskManager.AddTask(newTask);
-                            Console.WriteLine("Task added successfully! ");
-                        }
-                        else if (taskType == 2)
-                        {
-                            Console.Write("Enter task name: ");
-                            string name = Console.ReadLine();
-                            Console.Write("\nEnter task description (optional): ");
-                            string description = Console.ReadLine();
-                            Console.Write("\nEnter due date (yyyy-MM-dd): ");
-                            DateTime dueDate = DateTime.Parse(Console.ReadLine());
-                            Console.Write("\nEnter priority (0. None, 1. Low, 2. Medium, 3. High): ");
-                            int priorityInput = int.Parse(Console.ReadLine());
-                            if (priorityInput < 0 || priorityInput > 3)
+                            else if (taskType == 2)
                             {
-                                Console.WriteLine("Invalid priority. Setting to None. ");
-                                priorityInput = 0;
+                                Console.Write("Enter task name: ");
+                                string name = Console.ReadLine();
+                                Console.Write("\nEnter task description (optional): ");
+                                string description = Console.ReadLine();
+                                Console.Write("\nEnter due date (yyyy-MM-dd): ");
+                                DateTime dueDate = DateTime.Parse(Console.ReadLine());
+                                Console.Write("\nEnter priority (0. None, 1. Low, 2. Medium, 3. High): ");
+                                int priorityInput = int.Parse(Console.ReadLine());
+                                if (priorityInput < 0 || priorityInput > 3)
+                                {
+                                    Console.WriteLine("Invalid priority. Setting to None. ");
+                                    priorityInput = 0;
+                                }
+                                Priority priority = (Priority)priorityInput;
+                                Console.Write("\nEnter reccurence interval in days: ");
+                                int interval = int.Parse(Console.ReadLine());
+                                ReccuringTask newReccuringTask = new ReccuringTask(name, description, dueDate, priority, interval);
+                                tasks.Add(newReccuringTask);
+                                Console.WriteLine("Reccuring Task added successfully! ");
                             }
-                            Priority priority = (Priority)priorityInput;
-                            Console.Write("\nEnter reccurence interval in days: ");
-                            int interval = int.Parse(Console.ReadLine());
-                            ReccuringTask newReccuringTask = new ReccuringTask(name, description, dueDate, priority, interval);
-                            taskManager.AddTask(newReccuringTask);
-                            Console.WriteLine("Reccuring Task added successfully! ");
+                            Console.WriteLine("Press 0 to return to main menu or 1 to add another task");
+                            Console.Write("Your choice: ");
+                            int addChoice = int.Parse(Console.ReadLine());
+                            if(addChoice == 0)
+                            {
+                                isAdding = false;
+                            }
                         }
-
-                        Console.WriteLine("Press any key to return to main menu... ");
-                        Console.ReadKey();
+                        taskManager.AddTask(tasks.ToArray());
                         break;
 
                     case 2:
@@ -330,7 +340,7 @@ namespace CSHARPND1.App
                                 List<BaseTask> sortedTasks = tasksToFilter;
                                 sortedTasks.Sort((t1, t2) => t1.CompareTo(t2));
                                 Console.Clear();
-                                Console.WriteLine("-------Tasks sorted by Due Date-------");
+                                Console.WriteLine("-----------Sorted Tasks-----------");
                                 foreach (BaseTask task in sortedTasks)
                                 {
                                     if (task is TaskItem ti)
