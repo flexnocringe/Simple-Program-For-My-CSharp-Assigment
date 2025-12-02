@@ -1,4 +1,5 @@
-﻿using CSHARPND1.Core;
+﻿using CSHARPND1.Collection;
+using CSHARPND1.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,7 +25,7 @@ namespace CSHARPND1.App
                 {
                     Console.WriteLine("---------------Task Manager---------------\n");
                     Console.WriteLine("Upcoming Tasks:");
-                    List<BaseTask> upcomingTasks = taskManager.getTasksInDateRange(taskManager.getNotCompletedTasks(taskManager.AllTasks), DateTime.Now, 2);
+                    TaskCollection<BaseTask> upcomingTasks = taskManager.getTasksInDateRange(taskManager.getNotCompletedTasks(taskManager.AllTasks), DateTime.Now, 2);
                     upcomingTasks.Sort((t1, t2) => t1.CompareTo(t2));
                     foreach (BaseTask task in upcomingTasks)
                     {
@@ -53,7 +54,7 @@ namespace CSHARPND1.App
                 {
                     case 1:
                         bool isAdding = true;
-                        List<BaseTask> tasks = new List<BaseTask>();
+                        TaskCollection<BaseTask> tasks = new TaskCollection<BaseTask>();
                         while (isAdding)
                         {
                             Console.WriteLine("What type of task do you want to add?");
@@ -262,7 +263,7 @@ namespace CSHARPND1.App
                         Console.WriteLine("What task types do you want to filter?\n1. All Tasks\n2. Standard Tasks\n3. Reccuring Tasks");
                         Console.Write("Enter your choice: ");
                         int taskTypeFilterChoice = int.Parse(Console.ReadLine());
-                        List<BaseTask> tasksToFilter = taskTypeFilterChoice switch
+                        TaskCollection<BaseTask> tasksToFilter = taskTypeFilterChoice switch
                         {
                             1 => taskManager.AllTasks,
                             2 => taskManager.getTaskItems(),
@@ -282,7 +283,7 @@ namespace CSHARPND1.App
                                 Console.Write("Enter your choice: ");
                                 int statusInput = int.Parse(Console.ReadLine());
                                 TaskStatus statusFilter = (TaskStatus)statusInput;
-                                List<BaseTask> statusFilteredTasks = taskManager.getTasksByStatus(statusFilter, tasksToFilter);
+                                TaskCollection<BaseTask> statusFilteredTasks = taskManager.getTasksByStatus(statusFilter, tasksToFilter);
                                 Console.Clear();
                                 Console.WriteLine($"-------Tasks with Status: {statusFilter}-------");
                                 foreach (BaseTask task in statusFilteredTasks)
@@ -307,7 +308,7 @@ namespace CSHARPND1.App
                                 Console.Write("Enter your choice: ");
                                 int priorityInput = int.Parse(Console.ReadLine());
                                 Priority priorityFilter = (Priority)priorityInput;
-                                List<BaseTask> priorityFilteredTasks = taskManager.getTasksByPriority(priorityFilter, tasksToFilter);
+                                TaskCollection<BaseTask> priorityFilteredTasks = taskManager.getTasksByPriority(priorityFilter, tasksToFilter);
                                 Console.Clear();
                                 Console.WriteLine($"-------Tasks with Priority: {priorityFilter}-------");
                                 foreach (BaseTask task in priorityFilteredTasks)
@@ -332,12 +333,12 @@ namespace CSHARPND1.App
                                 DateTime startDate = DateTime.Parse(Console.ReadLine());
                                 Console.Write("Enter range in days: ");
                                 int range = int.Parse(Console.ReadLine());
-                                List<BaseTask> dateRangeFilteredTasks = taskManager.getTasksInDateRange(tasksToFilter, startDate, range);
+                                TaskCollection<BaseTask> dateRangeFilteredTasks = taskManager.getTasksInDateRange(tasksToFilter, startDate, range);
                                 Console.Clear();
                                 Console.WriteLine($"---Tasks due between {startDate.ToShortDateString()} and {startDate.AddDays(range).ToShortDateString()}---");
                                 break;
                             case 4:
-                                List<BaseTask> sortedTasks = tasksToFilter;
+                                TaskCollection<BaseTask> sortedTasks = tasksToFilter;
                                 sortedTasks.Sort((t1, t2) => t1.CompareTo(t2));
                                 Console.Clear();
                                 Console.WriteLine("-----------Sorted Tasks-----------");
