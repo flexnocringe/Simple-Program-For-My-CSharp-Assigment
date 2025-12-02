@@ -10,7 +10,7 @@ namespace CSHARPND1.Collection
 {
     internal class TaskCollection<T> : IEnumerable<T> where T : BaseTask
     {
-        private readonly List<T> tasks = new List<T>();
+        private List<T> tasks = new List<T>();
 
         public void Add(T task)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSHARPND1.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,7 +49,7 @@ namespace CSHARPND1.Core
             switch(format)
             {
                 case "detailed":
-                    return $"[Reccuring Task]\nid: {id}\nName: {taskName}\nDescription: {taskDescription}\nCreated On: {dateCreated}\nDue Date: {dueDate}\nNext Due Date: {nextDueDate}\nPriority: {priority}\nStatus: {status}\nReccurence Interval (days): {reccurenceIntervalDays}";
+                    return $"[Reccuring Task]\nid: {id}\nName: {taskName}\nDescription: {taskDescription}\nCreated On: {dateCreated.FormatLithuanian()}\nDue Date: {dueDate.FormatLithuanian()}\nNext Due Date: {nextDueDate}\nPriority: {priority}\nStatus: {status}\nReccurence Interval (days): {reccurenceIntervalDays}";
                 case "status":
                     return this.status.ToString();
                 default:

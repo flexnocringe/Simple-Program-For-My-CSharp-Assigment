@@ -67,7 +67,7 @@ namespace CSHARPND1.App
                                 string name = Console.ReadLine();
                                 Console.Write("\nEnter task description (optional): ");
                                 string description = Console.ReadLine();
-                                Console.Write("\nEnter due date (yyyy-MM-dd): ");
+                                Console.Write("\nEnter due date (yyyy-MM-dd HH:mm): ");
                                 DateTime dueDate = DateTime.Parse(Console.ReadLine());
                                 Console.Write("\nEnter priority (0. None, 1. Low, 2. Medium, 3. High): ");
                                 int priorityInput = int.Parse(Console.ReadLine());
@@ -87,7 +87,7 @@ namespace CSHARPND1.App
                                 string name = Console.ReadLine();
                                 Console.Write("\nEnter task description (optional): ");
                                 string description = Console.ReadLine();
-                                Console.Write("\nEnter due date (yyyy-MM-dd): ");
+                                Console.Write("\nEnter due date (yyyy-MM-dd HH:mm): ");
                                 DateTime dueDate = DateTime.Parse(Console.ReadLine());
                                 Console.Write("\nEnter priority (0. None, 1. Low, 2. Medium, 3. High): ");
                                 int priorityInput = int.Parse(Console.ReadLine());
@@ -180,7 +180,7 @@ namespace CSHARPND1.App
                                     taskManager.updateTask(taskToUpdate);
                                     break;
                                 case 4:
-                                    Console.Write("Enter new due date (yyyy-MM-dd): ");
+                                    Console.Write("Enter new due date (yyyy-MM-dd HH:mm): ");
                                     DateTime newDueDate = DateTime.Parse(Console.ReadLine());
                                     taskToUpdate.DueDate = newDueDate;
                                     taskToUpdate.updateStatus();

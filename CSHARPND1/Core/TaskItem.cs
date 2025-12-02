@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSHARPND1.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,11 +17,11 @@ namespace CSHARPND1.Core
             switch (format)
             {
                 case "detailed":
-                    return $"[Task]\nid: {id}\nName: {taskName}\nDescription: {taskDescription}\nDate Created: {dateCreated}\nDue Date: {dueDate}\nCompleted?: {isCompleted}\nPriority: {priority}\nStatus: {status}";
+                    return $"[Task]\nid: {id}\nName: {taskName}\nDescription: {taskDescription}\nDate Created: {dateCreated.FormatLithuanian()}\nDue Date: {dueDate.FormatLithuanian()}\nCompleted?: {isCompleted}\nPriority: {priority}\nStatus: {status}";
                 case "status":
                     return this.status.ToString();
                 default:
-                    return $"[Task] {taskName} - Due: {dueDate.ToShortDateString()} - Priority: {priority}";
+                    return $"[Task] {taskName} - Due: {dueDate.FormatLithuanian()} - Priority: {priority}";
             }
         }
 

@@ -13,7 +13,7 @@ namespace CSHARPND1.Collection
     {
         private T current;
         private int index = -1;
-        private readonly List<T> tasks;
+        private List<T> tasks;
 
         public TaskIterator(List<T> tasks)
         {
@@ -26,7 +26,7 @@ namespace CSHARPND1.Collection
 
         public void Dispose()
         {
-            tasks.Clear();
+            
         }
 
         public bool MoveNext()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSHARPND1.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -92,7 +93,7 @@ namespace CSHARPND1.Core
         {
             this.status = this switch
             {
-                { DueDate: DateTime dueDate } when dueDate < DateTime.Now => TaskStatus.Late,
+                { DueDate: DateTime dueDate } when DateTime.Now.IsPastDueDate(dueDate) => TaskStatus.Late,
                 { IsCompleted: true } => TaskStatus.Completed,
                 _ => TaskStatus.InProgress
             };
