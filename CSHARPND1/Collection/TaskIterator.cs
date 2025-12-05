@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace CSHARPND1.Collection
 {
+    // Implementuotas IEnumerator<T> (1 t.)
+    // Šitas enumetatorius yra naudojamas TaskCollection klasėje (0,5 t.)
     internal class TaskIterator<T> : IEnumerator<T> where T : BaseTask
     {
         private T current;

@@ -1,4 +1,6 @@
 ﻿using CSHARPND1.Collection;
+using CSHARPND1.Exceptions;
+using CSHARPND1.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,6 @@ namespace CSHARPND1.Core
 {
     class TaskManager
     {
-        // Naudojamas List is System.Collections.Generic (1 t)
         private TaskCollection<BaseTask> tasks = new TaskCollection<BaseTask>();
 
         public TaskManager() { }
@@ -18,21 +19,41 @@ namespace CSHARPND1.Core
         {
             get { return tasks; }
         }
-
-        // params raktažodis naudojamas keliems užduotims pridėti (0,5 t)
+        // Naudojami try/catch blokai (1t.)
         public void AddTask(params BaseTask[] tasks)
         {
-            this.tasks.AddRange(tasks);
+            try
+            {
+                this.tasks.AddRange(tasks);
+            }
+            catch (InvalidTaskActionException ex)
+            {
+                throw new InvalidTaskActionException("Error adding tasks: " + ex.Message);
+            }
         }
 
         public void RemoveTask(uint taskId)
         {
-            tasks.RemoveAll(t => t.Id == taskId);
+            try
+            {
+                tasks.RemoveAll(t => t.Id == taskId);
+            }
+            catch (InvalidTaskActionException ex)
+            {
+                throw new InvalidTaskActionException("Error removing task: " + ex.Message);
+            }
         }
 
         public void RemoveTask(BaseTask task)
         {
-            tasks.Remove(task);
+            try
+            {
+                tasks.Remove(task);
+            }
+            catch (InvalidTaskActionException ex)
+            {
+                throw new InvalidTaskActionException("Error removing task: " + ex.Message);
+            }
         }
 
         public BaseTask getTaskById(uint taskId)
@@ -52,19 +73,17 @@ namespace CSHARPND1.Core
             }
         }
 
-        // Delegatai su lambdą funkcijoms naudojami filtravimo funkcijai jinai bus kviešiama kituose metoduose (1,5 t)
         public TaskCollection<BaseTask> findTasks(Func<BaseTask, bool> predicate, TaskCollection<BaseTask> tasks)
         {
             return tasks.Where(predicate);
         }
 
-        // Čia is raktažodis naudojamas surasti tik TaskItem tipo užduotis iš BaseTask masyvo (0,5 t)
         public TaskCollection<BaseTask> getTaskItems()
         {
             return tasks.Where(t => t is TaskItem);
         }
 
-        // Čia tas pats tik ReccuringTask tipo užduotims (0,5 t)
+
         public TaskCollection<BaseTask> getReccuringTasks()
         {
             return tasks.Where(t => t is ReccuringTask);
@@ -72,7 +91,7 @@ namespace CSHARPND1.Core
 
         public TaskCollection<BaseTask> getTasksByStatus(TaskStatus status, TaskCollection<BaseTask> tasks)
         {
-            return findTasks(t=>t.Status==status, tasks);
+            return tasks.WithStatus(status);
         }
 
         public TaskCollection<BaseTask> getTasksByPriority(Priority priority, TaskCollection<BaseTask> tasks)

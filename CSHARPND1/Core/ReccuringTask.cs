@@ -1,4 +1,5 @@
-﻿using CSHARPND1.Extensions;
+﻿using CSHARPND1.Exceptions;
+using CSHARPND1.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace CSHARPND1.Core
 {
-    // ReccuringTask yra sealed ir jos paveldėti jau nebus galima (0,5 t)
-    sealed class ReccuringTask : BaseTask, IFormattable
+    sealed class ReccuringTask : BaseTask, IFormattable, ICloneable
     {
         private DateTime nextDueDate;
         private int reccurenceIntervalDays;
@@ -20,6 +20,10 @@ namespace CSHARPND1.Core
         }
         public ReccuringTask(string taskName, string? taskDescripiton, DateTime dueDate, Priority priority, int reccurenceIntervalDays) : base(taskName, taskDescripiton, dueDate, priority)
         {
+            if(reccurenceIntervalDays <= 0)
+            {
+                throw new InvalidTaskActionException("Reccurence interval must be greater than zero.");
+            }
             this.reccurenceIntervalDays = reccurenceIntervalDays;
             this.nextDueDate = this.DueDate.AddDays(reccurenceIntervalDays);
         }
@@ -43,7 +47,6 @@ namespace CSHARPND1.Core
             updateStatus();
         }
 
-        // ReccuringTask turi savo ToString metodo perkrovima
         public string ToString(string? format, IFormatProvider? formatProvider)
         {
             switch(format)
@@ -57,5 +60,16 @@ namespace CSHARPND1.Core
             }
         }
 
+        public object Clone()
+        {
+            return new ReccuringTask(this.TaskName, this.TaskDescription, this.DueDate, this.Priority, this.ReccurenceIntervalDays)
+            {
+                id = this.Id,
+                isCompleted = this.IsCompleted,
+                status = this.Status,
+                dateCreated = this.dateCreated,
+                nextDueDate = this.NextDueDate
+            };
+        }
     }
 }

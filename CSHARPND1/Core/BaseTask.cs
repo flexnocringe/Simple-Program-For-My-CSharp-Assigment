@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace CSHARPND1.Core
 {
-    // Base Task yra abstrakti klasė, ja paveldi TaskItem ir ReccuringTask (0,5 t)
     abstract class BaseTask : IComparable<BaseTask> , IEquatable<BaseTask>
     {
         private static uint idCounter = 0;
@@ -20,8 +19,6 @@ namespace CSHARPND1.Core
         protected Priority priority;
         protected TaskStatus status;
 
-        // Konstruktoriuje panaudotas ?? operatorius aprašymo null reikšmei pakeisti (0,5 t)
-        // Bitinė operacija |= pritaikyta prioriteto priskirimui (1 t)
         public BaseTask(string taskName, string? taskDescripiton, DateTime dueDate, Priority priority)
         {
             this.id = giveId();
@@ -88,7 +85,6 @@ namespace CSHARPND1.Core
             return ++idCounter;
         }
 
-        // Statusu atnaujinimui salygų tikrinimui pritaikytas switch su when raktažodžiu + salygos yra šablonų atitikimai (0.5 t + 1 t)
         public void updateStatus()
         {
             this.status = this switch
@@ -99,7 +95,6 @@ namespace CSHARPND1.Core
             };
         }
 
-        // Sort funkcijai implementuotas IComparable interfeisas (0,5 t)
         public int CompareTo(BaseTask? other)
         {
             if (other == null)
@@ -142,7 +137,6 @@ namespace CSHARPND1.Core
             }
         }
 
-        // Equals metodo perkrovimui implementuotas IEquatable interfeisas, objektai lyginami pagal unikalų ID (0,5 t)
         public bool Equals(BaseTask? other)
         {
             if (other == null)

@@ -373,8 +373,13 @@ namespace CSHARPND1.App
         {
             Console.Clear();
             Console.WriteLine("---------------All Tasks----------------");
-            foreach (BaseTask task in taskManager.AllTasks)
+            //Sukurtas ir panaudotas iteratorius (0,5 t)
+            TaskIterator<BaseTask> iterator = taskManager.AllTasks.GetEnumerator() as TaskIterator<BaseTask>;
+
+            while (iterator.MoveNext())
             {
+                BaseTask task = iterator.Current;
+
                 if (task is TaskItem ti)
                 {
                     Console.WriteLine(ti.ToString("detailed", null));

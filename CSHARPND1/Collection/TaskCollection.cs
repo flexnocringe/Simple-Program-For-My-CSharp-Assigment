@@ -1,4 +1,5 @@
 ﻿using CSHARPND1.Core;
+using CSHARPND1.Exceptions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,23 +9,36 @@ using System.Threading.Tasks;
 
 namespace CSHARPND1.Collection
 {
+    // Ši kolekcija leidžia valdyti užduotys ir implementuoja IEnumerable<T> (1 t.)
+    // Naudojamas 'where' raktažodis (1 t.)
     internal class TaskCollection<T> : IEnumerable<T> where T : BaseTask
     {
         private List<T> tasks = new List<T>();
 
         public void Add(T task)
         {
+            if(task == null)
+            {
+                throw new InvalidTaskActionException("Task cannot be null");
+            }
             tasks.Add(task);
         }
         
         public void AddRange(IEnumerable<T> tasks)
         {
+            if(tasks == null)
+            {
+                throw new InvalidTaskActionException("Tasks collection cannot be null");
+            }
             this.tasks.AddRange(tasks);
         }
 
-        public bool Remove(T task)
+        public void Remove(T task)
         {
-            return tasks.Remove(task);
+            if (!tasks.Remove(task))
+            {
+                throw new InvalidTaskActionException("Task not found in collection");
+            }
         }
 
         public int RemoveAll(Predicate<T> match)
@@ -34,6 +48,10 @@ namespace CSHARPND1.Collection
 
         public T Get(int index)
         {
+            if(index < 0 || index >= tasks.Count)
+            {
+                throw new InvalidTaskActionException("Index is out of range");
+            }
             return tasks[index];
         }
 

@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace CSHARPND1.Core
 {
-    class TaskItem : BaseTask, IFormattable
+    class TaskItem : BaseTask, IFormattable, ICloneable
     {
         public TaskItem(string taskName, string? taskDescripiton, DateTime dueDate, Priority priority) : base(taskName, taskDescripiton, dueDate, priority) { }
 
-        // Implementuotas IFormattable interfeisas ToString metodo perkrovimui (1 t)
         public string ToString(string? format, IFormatProvider? formatProvider)
         {
             switch (format)
@@ -25,7 +24,6 @@ namespace CSHARPND1.Core
             }
         }
 
-        // Buvo perkrautas + operatorius dviem užduotim į viena nauja sujungumui (0,5 t)
         public static TaskItem operator + (TaskItem task1, TaskItem task2)
         {
             string newName = task1.TaskName + " & " + task2.TaskName;
@@ -35,7 +33,6 @@ namespace CSHARPND1.Core
             return new TaskItem(newName, newDescription, newDueDate, newPriority);
         }
 
-        // Buvo implementuotas destruktorius visiem užduoties kintamiesiems gauti (0,5 t)
         public void Deconstruct(out uint id, out string taskName, out string taskDescription, out DateTime dueDate, out Priority priority, out TaskStatus status)
         {
             id = this.id;
@@ -46,7 +43,6 @@ namespace CSHARPND1.Core
             status = this.status;
         }
 
-        // Buvo perkrauti lyginimo operatoriai (==, !=) kurie implementuoja iš BaseTask paveldima Equals metodą (0,5 t)
         public static bool operator ==(TaskItem task1, TaskItem? task2) => task1.Equals(task2);
         public static bool operator !=(TaskItem task1, TaskItem? task2) => !task1.Equals(task2);
 
@@ -54,6 +50,17 @@ namespace CSHARPND1.Core
         {
             IsCompleted = true;
             updateStatus();
+        }
+        //Implementuotas IClonable (1t.)
+        public object Clone()
+        {
+            return new TaskItem(this.TaskName, this.TaskDescription, this.DueDate, this.Priority)
+            {
+                isCompleted = this.IsCompleted,
+                dateCreated = this.dateCreated,
+                status = this.Status,
+                id = this.Id
+            };
         }
     }
 }
